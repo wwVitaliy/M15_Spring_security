@@ -20,7 +20,6 @@ public class FakeNoteRepo {
     }
 
     public void addNote(Note note) {
-        note.setId(UUID.randomUUID());
         notes.add(note);
     }
 
