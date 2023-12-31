@@ -1,6 +1,6 @@
-package com.example.TodoList.noteservice;
+package com.example.TodoList.service;
 
-import com.example.TodoList.entity.Note;
+import com.example.TodoList.service.dto.NoteDto;
 
 import java.util.List;
 import java.util.UUID;
@@ -9,12 +9,12 @@ public interface NoteService {
     /**
      * Gets all notes;
      */
-    List<Note> listAll();
+    List<NoteDto> listAll();
 
     /**
      * Adds new note, generate new unique id and returns the note with id.
      */
-    Note add(Note note);
+    NoteDto add(NoteDto noteDto);
 
     /**
      * Deletes note with defined id.
@@ -26,11 +26,11 @@ public interface NoteService {
      * Updates note with defined id.
      * Throws exception when there is no note with defined id.
      */
-    void update(Note note) throws Exception;
+    void update(NoteDto noteDto) throws Exception;
 
     /**
      * Gets note with defined id.
      * Throws exception when there is no note with defined id.
      */
-    Note getById(UUID id) throws Exception;
+    NoteDto getById(UUID id) throws Exception;
 }
