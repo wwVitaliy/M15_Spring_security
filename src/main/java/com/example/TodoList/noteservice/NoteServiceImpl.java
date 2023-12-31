@@ -1,4 +1,4 @@
-package com.example.TodoList.dao;
+package com.example.TodoList.noteservice;
 
 import com.example.TodoList.data.FakeNoteRepo;
 import com.example.TodoList.entity.Note;

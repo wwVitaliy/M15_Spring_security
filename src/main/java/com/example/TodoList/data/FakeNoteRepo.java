@@ -14,8 +14,8 @@ public class FakeNoteRepo {
     private List<Note> notes;
 
     @PostConstruct
-    private void postConstruct(){
-        List<Note> notes = new ArrayList<>();
+    private void postConstruct() {
+        notes = new ArrayList<>();
         System.out.println("--->>> NoteRepo created.");
     }
 
@@ -46,7 +46,7 @@ public class FakeNoteRepo {
 
     public void updateNote(Note note) throws Exception {
         for (Note noteFromList : notes) {
-            if (note.getId().equals(note.getId())) {
+            if (noteFromList.getId().equals(note.getId())) {
                 noteFromList.setContent(note.getContent());
                 noteFromList.setTitle(note.getTitle());
                 break;
@@ -54,6 +54,4 @@ public class FakeNoteRepo {
         }
         throw new Exception("Cannot find note with id = " + note.getId());
     }
-
-
 }
