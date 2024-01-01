@@ -14,6 +14,10 @@ public class FakeNoteRepo {
     @PostConstruct
     private void postConstruct() {
         noteList = new ArrayList<>();
+        noteList.add(new NoteEntity(UUID.randomUUID(), "TestTitle1", "TestNone1"));
+        noteList.add(new NoteEntity(UUID.randomUUID(), "TestTitle2", "TestNone2"));
+        noteList.add(new NoteEntity(UUID.randomUUID(), "TestTitle3", "TestNone3"));
+        noteList.add(new NoteEntity(UUID.randomUUID(), "TestTitle4", "TestNone4"));
         System.out.println("--->>> NoteRepo created.");
     }
 
