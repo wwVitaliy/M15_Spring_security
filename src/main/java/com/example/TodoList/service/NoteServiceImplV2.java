@@ -1,7 +1,7 @@
 package com.example.TodoList.service;
 
-import com.example.TodoList.data.repository.FakeNoteRepo;
 import com.example.TodoList.data.entity.NoteEntity;
+import com.example.TodoList.data.repository.NoteRepository;
 import com.example.TodoList.service.dto.NoteDto;
 import com.example.TodoList.service.exception.NoteNotFoundException;
 import com.example.TodoList.service.mapper.NoteMapper;
@@ -14,39 +14,39 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class NoteServiceImpl implements NoteService {
+public class NoteServiceImplV2 implements NoteService {
     @Autowired
-    private FakeNoteRepo noteRepo;
+    private NoteRepository noteRepository;
     @Autowired
     private NoteMapper noteMapper;
 
     @Override
     public List<NoteDto> listAll() {
-        return noteMapper.toNoteDtos(noteRepo.findAll());
+        return noteMapper.toNoteDtos(noteRepository.findAll());
     }
 
     @Override
     public NoteDto add(NoteDto noteDto) {
-        if (Objects.isNull(noteDto.getId())) {
-            noteDto.setId(UUID.randomUUID());
+        NoteEntity noneEntity = noteMapper.toNoneEntity(noteDto);
+        if (Objects.isNull(noneEntity.getId())) {
+            noneEntity.setId(UUID.randomUUID());
         }
-        NoteEntity noteEntity = noteMapper.toNoneEntity(noteDto);
-        return noteMapper.toNoteDto(noteRepo.save(noteEntity));
+        return noteMapper.toNoteDto(noteRepository.save(noneEntity));
     }
 
     @Override
     public void deleteById(UUID id) throws NoteNotFoundException {
-       if (noteRepo.findById(id).isPresent()){
-           noteRepo.delete(id);
-       }else{
-           throw new NoteNotFoundException(id);
-       }
+        if (noteRepository.findById(id).isPresent()){
+            noteRepository.deleteById(id);
+        }else{
+            throw new NoteNotFoundException(id);
+        }
     }
 
     @Override
-    public void update(NoteDto noteDto) throws Exception {
-        if (noteRepo.findById(noteDto.getId()).isPresent()){
-            noteRepo.save(noteMapper.toNoneEntity(noteDto));
+    public void update(NoteDto noteDto) throws NoteNotFoundException {
+        if (noteRepository.findById(noteDto.getId()).isPresent()){
+            noteRepository.save(noteMapper.toNoneEntity(noteDto));
         }else{
             throw new NoteNotFoundException(noteDto.getId());
         }
@@ -54,7 +54,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public NoteDto getById(UUID id) throws Exception {
-        Optional<NoteEntity> optional = noteRepo.findById(id);
+        Optional<NoteEntity> optional = noteRepository.findById(id);
         if (optional.isPresent()){
             return noteMapper.toNoteDto(optional.get());
         }else{
